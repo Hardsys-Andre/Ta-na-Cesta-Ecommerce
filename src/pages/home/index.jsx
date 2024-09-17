@@ -12,6 +12,9 @@ import Header from "../../sections/header";
 import NavBar from "../../sections/navBar";
 import Footer from "../../sections/footer/index.jsx";
 import Checkout from "../../pages/checkout/checkout.jsx";
+import User from "../testeDB/UserList.jsx";
+import AdminPage from "../adminPage/adminPage.jsx"
+
 
 function Home() {
   const { cartItems } = useContext(CartContext);
@@ -27,6 +30,7 @@ function Home() {
       <Catalog />
       <Contact />
       <Footer />
+      <User />
     </div>
   );
 }
@@ -40,6 +44,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/carrinho" element={<CartPage />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </Router>
   );
