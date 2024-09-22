@@ -7,8 +7,6 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { CartContext } from "../../CartContext.jsx";
 
-
-
 const ProductCarousel = ({ title, produtos }) => {
   const { addToCart } = useContext(CartContext);
 
@@ -41,7 +39,8 @@ const ProductCarousel = ({ title, produtos }) => {
         modules={[Navigation]}
         className="mySwiper"
       >
-        {produtos !== undefined ? (
+        {/* Verificação se o array produtos tem itens */}
+        {produtos && produtos.length > 0 ? (
           produtos.map(({ name, price, unit, image }, index) => (
             <SwiperSlide
               key={index}
@@ -73,7 +72,7 @@ const ProductCarousel = ({ title, produtos }) => {
             </SwiperSlide>
           ))
         ) : (
-          <div></div>
+          <div className="text-center p-4">Nenhum produto disponível no momento.</div>
         )}
       </Swiper>
     </div>
@@ -87,6 +86,7 @@ ProductCarousel.propTypes = {
       name: PropTypes.string.isRequired,
       price: PropTypes.number.isRequired,
       image: PropTypes.string.isRequired,
+      unit: PropTypes.string, // Adicionando `unit` aqui, já que está sendo utilizado
     })
   ).isRequired,
 };

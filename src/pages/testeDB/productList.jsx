@@ -7,8 +7,12 @@ const ProductList = () => {
   // Função para buscar produtos
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost:3001/products');
+      const response = await fetch('https://my-api-production-1531.up.railway.app/products'); // URL da API online
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
       const data = await response.json();
+      console.log(data);
       setProducts(data);
       setLoading(false);
     } catch (error) {
@@ -27,20 +31,23 @@ const ProductList = () => {
   }
 
   return (
-    <div>
-      <h1>Product List</h1>
-      <ul>
+    <div className='mt-[50px] mx-5'>
+      <h1>Lista de produtos cadastrados</h1>
+      <div className='flex flex-row'>
+        <ul className='flex flex-wrap gap-[50px]'>
         {products.map((product) => (
           <li key={product.id}>
             <h3>{product.name}</h3>
             <p>Category: {product.category}</p>
             <p>Price: ${product.price}</p>
-            <p>Quantity: {product.quantity}</p>
+            <p>Quantity: {product.quantity} {product.unit}</p>
+            <p className='w-[200px]'>Description: {product.description}</p>
             {/* Adicionando a imagem */}
             <img src={product.image} alt={product.name} style={{ width: '150px', height: '150px' }} />
           </li>
         ))}
       </ul>
+      </div>
     </div>
   );
 };

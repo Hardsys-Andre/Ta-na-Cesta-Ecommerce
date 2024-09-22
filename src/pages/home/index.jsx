@@ -12,8 +12,6 @@ import Header from "../../sections/header";
 import NavBar from "../../sections/navBar";
 import Footer from "../../sections/footer/index.jsx";
 import Checkout from "../../pages/checkout/checkout.jsx";
-import User from "../testeDB/UserList.jsx";
-import Product from "../testeDB/productList.jsx";
 import AdminPage from "../adminPage/adminPage.jsx"
 
 
@@ -31,8 +29,6 @@ function Home() {
       <Catalog />
       <Contact />
       <Footer />
-      <User />
-      <Product />
     </div>
   );
 }

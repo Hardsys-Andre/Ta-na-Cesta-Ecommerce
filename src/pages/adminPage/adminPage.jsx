@@ -1,10 +1,15 @@
 import { useState } from 'react';
+import { createUser, createProduct } from '../../api/apiService';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Button from "../../components/Button/index";
+import User from "../testeDB/UserList.jsx";
+import Product from "../testeDB/productList.jsx";
 
 function AdminPage() {
   // Estados para os usuários
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [userMessage, setUserMessage] = useState('');
 
   // Estados para os produtos
   const [productName, setProductName] = useState('');
@@ -13,26 +18,21 @@ function AdminPage() {
   const [category, setCategory] = useState('');
   const [quantity, setQuantity] = useState('');
   const [description, setDescription] = useState('');
-  const [productMessage, setProductMessage] = useState('');
+  const [image, setImage] = useState('');
 
   // Função para enviar o formulário de usuário
   const handleUserSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await fetch('http://localhost:3001/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, email }),
-    });
+    const userData = { name, email };
 
-    if (response.ok) {
-      setUserMessage('User added successfully!');
+    try {
+      await createUser(userData);
+      toast.success('Usuário adicionado com sucesso!');
       setName('');
       setEmail('');
-    } else {
-      setUserMessage('Error adding user.');
+    } catch {
+      toast.error('Erro ao adicionar usuário.');
     }
   };
 
@@ -40,37 +40,46 @@ function AdminPage() {
   const handleProductSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await fetch('http://localhost:3001/products', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name: productName, unit, price: parseFloat(price), category, quantity: parseInt(quantity), description }),
-    });
+    const productData = {
+      name: productName,
+      unit,
+      price: parseFloat(price), // Converte string para número
+      category,
+      quantity: parseInt(quantity), // Converte string para número
+      description,
+      image
+    };
 
-    if (response.ok) {
-      setProductMessage('Product added successfully!');
+    try {
+      await createProduct(productData);
+      toast.success('Produto adicionado com sucesso!');
       setProductName('');
       setUnit('');
       setPrice('');
+      setCategory('');
+      setQuantity('');
       setDescription('');
-    } else {
-      setProductMessage('Error adding product.');
+      setImage('');
+    } catch {
+      toast.error('Erro ao adicionar produto.');
     }
   };
 
   return (
-    <div>
-      <h1>Admin Page</h1>
+    <div className=''>
+      <ToastContainer />
+      <h1 className='text-[50px] text-center'>Área do Administrador</h1>
       
-      {/* Formulário para adicionar usuário */}
-      <h2>Add User</h2>
-      <form onSubmit={handleUserSubmit}>
+     <div className='flex flex-col mt-[50px] bg-green-500 items-center'>
+     <h2>Adicionar Usuários</h2>
+      <form className='flex flex-col mt-4 gap-3 items-center'
+      onSubmit={handleUserSubmit}>
         <div>
           <label>
             Name:
-            <input
+            <input className='ml-2 w-60'
               type="text"
+              placeholder='Digite seu nome completo'
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -80,26 +89,32 @@ function AdminPage() {
         <div>
           <label>
             Email:
-            <input
+            <input className='ml-2 w-60'
               type="email"
+              placeholder='Digite seu email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </label>
         </div>
-        <button type="submit">Add User</button>
+        <Button 
+        type="submit"  
+        label="Adicionar Usuário" />
       </form>
-      {userMessage && <p>{userMessage}</p>}
+     </div>
+      
 
-      {/* Formulário para adicionar produto */}
-      <h2>Add Product</h2>
-      <form onSubmit={handleProductSubmit}>
-        <div>
+      <div className='flex flex-col mt-[50px] bg-red-500 items-center'>
+      <h2>Adicionar Produtos</h2>
+      <form className='flex flex-col mt-4 gap-3 items-center'
+      onSubmit={handleProductSubmit}>
+        <div >
           <label>
             Product Name:
-            <input
+            <input className='ml-2 w-60'
               type="text"
+              placeholder='Digite o nome do produto'
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
               required
@@ -109,8 +124,9 @@ function AdminPage() {
         <div>
           <label>
             Unit:
-            <input
+            <input className='ml-2 w-60'
               type="text"
+              placeholder='Digite a unidade de medida'
               value={unit}
               onChange={(e) => setUnit(e.target.value)}
               required
@@ -120,8 +136,9 @@ function AdminPage() {
         <div>
           <label>
             Price:
-            <input
+            <input className='ml-2 w-60'
               type="number"
+              placeholder='Digite o preço do produto'
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               required
@@ -131,8 +148,9 @@ function AdminPage() {
         <div>
           <label>
             Category:
-            <input
+            <input className='ml-2 w-60'
               type="text"
+              placeholder='Digite a categoria do produto'
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               required
@@ -142,8 +160,9 @@ function AdminPage() {
         <div>
           <label>
             Quantity:
-            <input
+            <input className='ml-2 w-60'
               type="number"
+              placeholder='Digite a quantidade de produtos'
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
               required
@@ -153,17 +172,37 @@ function AdminPage() {
         <div>
           <label>
             Description:
-            <input
+            <input className='ml-2 w-60'
               type="text"
+              placeholder='Digite uma descrição do produto'
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
             />
           </label>
         </div>
-        <button type="submit">Add Product</button>
+        <div>
+          <label>
+            Image:
+            <input className='ml-2 w-60'
+              type="text"
+              placeholder='Cole a URL da imagem do produto'
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+        <Button 
+        type="submit"  
+        label="Adicionar Produto" />
       </form>
-      {productMessage && <p>{productMessage}</p>}
+      </div>
+      <div>
+        <User />
+        <Product />
+
+      </div>
     </div>
   );
 }

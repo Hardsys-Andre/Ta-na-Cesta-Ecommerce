@@ -6,7 +6,7 @@ function UserList() {
 
   useEffect(() => {
     async function fetchUsers() {
-      const response = await fetch('http://localhost:3001/users');
+      const response = await fetch('https://my-api-production-1531.up.railway.app/user');
       const data = await response.json();
       setUsers(data);
     }
@@ -15,11 +15,11 @@ function UserList() {
   }, []);
 
   return (
-    <div>
-      <h1>Users</h1>
-      <ul>
+    <div className='mt-[50px] mx-5'>
+      <h1>Lista de Usuários cadastrados</h1>
+      <ul className='flex flex-col gap-2'>
         {users.map(user => (
-          <li key={user.id}>{user.name} - {user.email}</li>
+          <li key={user.id}># {user.name} - {user.email}</li>
         ))}
       </ul>
     </div>
