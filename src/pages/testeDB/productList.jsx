@@ -32,12 +32,12 @@ const ProductList = () => {
 
   return (
     <div className='mt-[50px] mx-5'>
-      <h1>Lista de produtos cadastrados</h1>
-      <div className='flex flex-row'>
+      <h1 className='text-2xl w-[100%] text-center font-bold bg-gradient-to-r from-primaryGreen via-primaryGreen to-secondaryGreen'>Lista de produtos cadastrados</h1>
+      <div className='flex flex-row mt-[50px]'>
         <ul className='flex flex-wrap gap-[50px]'>
         {products.map((product) => (
           <li key={product.id}>
-            <h3>{product.name}</h3>
+            <h3>Product: {product.name}</h3>
             <p>Category: {product.category}</p>
             <p>Price: ${product.price}</p>
             <p>Quantity: {product.quantity} {product.unit}</p>
