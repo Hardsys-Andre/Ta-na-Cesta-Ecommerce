@@ -35,6 +35,9 @@ const NavbarComponent = () => {
   const handleCartClick = () => {
     navigate("/carrinho");
   };
+  const pageAdmin = () => {
+    navigate("/admin");
+  };
 
   return (
     <div
@@ -65,9 +68,7 @@ const NavbarComponent = () => {
             <a href="#contato">
               <Button label="Contato" />
             </a>
-            <a href="/admin">
-              <Button label="Admin" />
-            </a>
+              <Button label="Admin" onClick={pageAdmin} />
           </div>
         )}
       </div>
@@ -84,9 +85,7 @@ const NavbarComponent = () => {
         <a href="#contato">
           <Button label="Contato" />
         </a>
-        <a href="/admin">
-          <Button label="Admin" />
-        </a>
+        <Button label="Admin" onClick={pageAdmin} />
       </div>
       <div className="hidden  flex-row gap-4 w-full">
         <div className="flex w-full justify-center items-center">
