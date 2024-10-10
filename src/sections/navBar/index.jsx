@@ -65,6 +65,9 @@ const NavbarComponent = () => {
             <a href="#contato">
               <Button label="Contato" />
             </a>
+            <a href="/admin">
+              <Button label="Admin" />
+            </a>
           </div>
         )}
       </div>
@@ -80,6 +83,9 @@ const NavbarComponent = () => {
         </a>
         <a href="#contato">
           <Button label="Contato" />
+        </a>
+        <a href="/admin">
+          <Button label="Admin" />
         </a>
       </div>
       <div className="hidden  flex-row gap-4 w-full">
